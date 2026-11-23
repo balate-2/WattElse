@@ -718,8 +718,26 @@ const displayedTags = React.useMemo(() => {
 
     };
 
-    loadLeafletAndRender();
+      loadLeafletAndRender();
   }, [shouldShowMap, filteredAndSortedItems.length, items]);
+
+  // Recalcule automatiquement la taille de la carte dès que son conteneur devient visible ou change de taille
+  useEffect(() => {
+    const container = mapContainerRef.current;
+    if (!container) return;
+
+    const observer = new ResizeObserver(() => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.invalidateSize();
+        if (coords) {
+          mapInstanceRef.current.setView([coords.lat, coords.lng], 15, { animate: false });
+        }
+      }
+    });
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [shouldShowMap, coords]);
 
   if (authLoading) {
     return (
@@ -728,6 +746,7 @@ const displayedTags = React.useMemo(() => {
       </div>
     );
   }
+
 
   if (!user) {
     return (
