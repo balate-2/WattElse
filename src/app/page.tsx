@@ -160,33 +160,35 @@ export default function WattElseHome() {
     setItems([]);
   };
 
-  // Géolocalisation GPS actuelle
+    // Géolocalisation GPS actuelle
   const showPreviewPinOnMap = (lat: number, lng: number, label: string) => {
-  const map = mapInstanceRef.current;
-  if (!map || !window.L) return;
+    const map = mapInstanceRef.current;
+    if (!map || !window.L) return;
 
-  if (previewMarkerRef.current) {
-    previewMarkerRef.current.remove();
-  }
+    if (previewMarkerRef.current) {
+      previewMarkerRef.current.remove();
+    }
 
-  const marker = window.L.circleMarker([lat, lng], {
-    radius: 11,
-    fillColor: '#f43f5e',
-    color: '#ffffff',
-    weight: 3,
-    opacity: 1,
-    fillOpacity: 1,
-  }).addTo(map);
+    const marker = window.L.circleMarker([lat, lng], {
+      radius: 11,
+      fillColor: '#f43f5e',
+      color: '#ffffff',
+      weight: 3,
+      opacity: 1,
+      fillOpacity: 1,
+    }).addTo(map);
 
-  marker.bindTooltip(`Aperçu : ${label || 'Nouveau point'}`, {
-    permanent: true,
-    direction: 'top',
-    offset: [0, -10],
-  });
+    marker.bindTooltip(`Aperçu : ${label || 'Nouveau point'}`, {
+      permanent: true,
+      direction: 'top',
+      offset: [0, -10],
+    });
 
-  previewMarkerRef.current = marker;
-  map.setView([lat, lng], 15, { animate: true });
-};
+    previewMarkerRef.current = marker;
+    map.invalidateSize();
+    map.setView([lat, lng], 15, { animate: true });
+  };
+
 
 
   const detectLocationSilently = () => {
@@ -606,7 +608,8 @@ const displayedTags = React.useMemo(() => {
   );
 
   // Détermine si la carte doit être affichée (toujours sur PC, ou sur l'onglet carte sur mobile)
-  const shouldShowMap = isDesktop || mobileTab === 'map';
+  //const shouldShowMap = isDesktop || mobileTab === 'map';
+  const shouldShowMap = geolocatedItems.length > 0 || coords !== null;
 
   // Rendu de la carte Leaflet (Tooltip au survol + Clic pour ouvrir la fiche)
   useEffect(() => {
@@ -708,6 +711,11 @@ const displayedTags = React.useMemo(() => {
       } else if (bounds.length > 1) {
         map.fitBounds(bounds, { padding: [45, 45] });
       }
+
+      if (coords) {
+        showPreviewPinOnMap(coords.lat, coords.lng, locationName);
+      }
+
     };
 
     loadLeafletAndRender();
