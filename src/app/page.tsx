@@ -195,7 +195,8 @@ export default function WattElseHome() {
         async (pos) => {
           const { latitude, longitude } = pos.coords;
           setCoords({ lat: latitude, lng: longitude });
-          showPreviewPinOnMap(lat, lng, locationName);
+          showPreviewPinOnMap(latitude, longitude, locationName);
+
           try {
             const res = await fetch(
               `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
