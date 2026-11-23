@@ -1,0 +1,16 @@
+{
+  "name": "WattElse - Vide-poche électrique",
+  "short_name": "WattElse",
+  "description": "Vos idées, liens et photos associés à une date et un lieu.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
