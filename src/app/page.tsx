@@ -786,7 +786,7 @@ const displayedTags = React.useMemo(() => {
 />
 
             <button type="submit" className="btn-electric w-full py-3 text-sm">
-              Recevoir mon lien de connexion
+              Ouvrir WattElse
             </button>
           </form>
 
