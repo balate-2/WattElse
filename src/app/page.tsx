@@ -141,19 +141,30 @@ export default function WattElseHome() {
     setEventDate(now.toISOString().slice(0, 16));
   };
 
+  const ACCESS_PIN = '1478';
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setAuthMessage('Envoi du lien de connexion...');
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: window.location.origin },
+    setAuthMessage('');
+
+    if (email.trim() !== ACCESS_PIN) {
+      setAuthMessage('Code PIN incorrect.');
+      return;
+    }
+
+    setAuthMessage('Ouverture de WattElse...');
+    const { error } = await supabase.auth.signInWithPassword({
+      email: 'famille@wattelse.app',
+      password: 'WattElse2026!',
     });
+
     if (error) {
       setAuthMessage(`Erreur : ${error.message}`);
     } else {
-      setAuthMessage('Vérifie ta boîte courriel et clique sur le lien magique.');
+      setAuthMessage('');
     }
   };
+
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -764,13 +775,16 @@ const displayedTags = React.useMemo(() => {
 
           <form onSubmit={handleLogin} className="space-y-3 text-left">
             <input
-              type="email"
-              placeholder="ton.courriel@exemple.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 rounded-xl bg-[#0b1120] border border-[#334155] text-sm outline-none focus:border-[#22d3ee]"
-              required
-            />
+  type="password"
+  inputMode="numeric"
+  maxLength={4}
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  placeholder="Code PIN (4 chiffres)"
+  required
+  className="w-full px-3 py-2.5 text-center text-xl tracking-[0.4em] font-mono rounded-lg bg-[#0f172a] border border-slate-600 text-[#22d3ee] focus:outline-none focus:border-[#facc15]"
+/>
+
             <button type="submit" className="btn-electric w-full py-3 text-sm">
               Recevoir mon lien de connexion
             </button>
