@@ -800,19 +800,22 @@ const displayedTags = React.useMemo(() => {
     <div className="min-h-screen max-w-6xl mx-auto p-4 md:p-8">
       {/* En-tête */}
       <header className="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#1e293b] border border-[#334155] flex items-center justify-center font-black text-xl text-[#facc15]">
-            W<span className="text-[#22d3ee]">.</span>
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight leading-none">
-              Watt<span className="text-[#facc15]">Else</span>
-            </h1>
-            <p className="text-[11px] text-[#94a3b8] mt-1">
-              {items.length} élément{items.length > 1 ? 's' : ''} en poche
-            </p>
-          </div>
-        </div>
+       <div className="flex items-center gap-3">
+  <img
+    src="/logo.png"
+    alt="Logo WattElse"
+    className="w-11 h-11 rounded-xl object-contain"
+  />
+  <div>
+    <h1 className="text-2xl font-bold text-[#facc15] leading-tight">
+      WattElse
+    </h1>
+    <p className="text-xs text-[#22d3ee]">
+      Vos idées, schémas et composants au même endroit.
+    </p>
+  </div>
+</div>
+
 
         <div className="flex items-center gap-2">
           {/* Onglet Carte / Liste visible uniquement sur mobile (< 1024px) */}
